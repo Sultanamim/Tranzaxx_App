@@ -15,6 +15,18 @@ module.exports = {
                 primary: "#00AEF0",
                 primaryBlk: "#010101",
                 lightColor: "#737373",
+                lightColorBlk: "#D9D9D9",
+                primaylightblueblk: "#B0E6FA",
+                waringblk: "#E64E1F",
+                grey: {
+                    100: "#767C89",
+                    200: "#DEE2E6",
+                    300: "#010101"
+                },
+                blue: {
+                    100: "#E6F7FE",
+                    200: "#00AEF0"
+                }
             },
             boxShadow: {
                 custom: "0px 0px 40px 0px rgba(0, 0, 0, 0.05)",
