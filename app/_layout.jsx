@@ -15,6 +15,7 @@ import { View } from "react-native"
 import Navbar from "../components/Header/Navbar"
 import { AppProvider } from "../store/store"
 import Menu from "./(auth)/humber"
+import AdminMenu from "./(admin)/humber"
 
 SplashScreen.preventAutoHideAsync()
 
@@ -41,6 +42,9 @@ export default function RootLayout() {
     if (!loaded) {
         return null
     }
+
+    const isPathnameExit = ['/admin-home', '/archived-ads', '/favourite-ads', '/featured-ads', '/my-ads', '/pending-approval', '/savedsearch']
+
     return (
         <AppProvider>
             <View className="flex-1">
@@ -51,9 +55,18 @@ export default function RootLayout() {
                         <View>
                             <Navbar setIsShowMenu={setIsShowMenu} />
                             <View>
-                                {isShowMenu && (
-                                    <Menu setIsShowMenu={setIsShowMenu} />
-                                )}
+
+                                {
+                                    !isPathnameExit.includes(pathname) && isShowMenu && (
+                                        <Menu setIsShowMenu={setIsShowMenu} />
+                                    )
+                                }
+
+                                {
+                                    isPathnameExit.includes(pathname) && isShowMenu && (
+                                        <AdminMenu setIsShowMenu={setIsShowMenu} />
+                                    )
+                                }
                             </View>
                         </View>
                     )}
@@ -69,6 +82,10 @@ export default function RootLayout() {
                         />
                         <Stack.Screen
                             name="(auth)"
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                            name="(admin)"
                             options={{ headerShown: false }}
                         />
                         <Stack.Screen name="+not-found" />
