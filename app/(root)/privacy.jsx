@@ -1,11 +1,97 @@
 import { View, Text } from "react-native";
 import React from "react";
+import { ScrollView } from "react-native";
 
 const Privacy = () => {
   return (
-    <View>
-      <Text className="text-center mt-10">Privacy</Text>
-    </View>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      className="mx-[16px] font-poppins mb-[30px] "
+    >
+      <Text
+        className="text-center font-semibold mt-[30px] text-[44px] "
+        style={{ fontFamily: "Poppins-SemiBold" }}
+      >
+        PRIVACY
+      </Text>
+      <Text
+        className="text-center text-[#00AEF0] font-semibold mt-[15px] text-[36px] "
+        style={{ fontFamily: "Poppins-SemiBold" }}
+      >
+        PRIVACY
+      </Text>
+      <View>
+        <Text
+          className=" text-[#565656] font-medium mt-[26px] text-[15px] leading-[24px]"
+          style={{ fontFamily: "Poppins-Medium" }}
+        >
+          YOUR PRIVACY IS AN IMPORTANT PART OF OUR RELATIONSHIP WITH YOU.
+          PROTECTING YOUR PRIVACY IS ONLY PART OF OUR MISSION TO PROVIDE A
+          SECURE WEB ENVIRONMENT. WHEN USING OUR SITE, INCLUDING OUR SERVICES,
+          YOUR INFORMATION WILL REMAIN STRICTLY CONFIDENTIAL. CONTRIBUTIONS MADE
+          ON OUR BLOG OR ON OUR FORUM ARE OPEN TO PUBLIC VIEW: SO PLEASE DO NOT
+          POST ANY PERSONAL INFORMATION IN YOUR DEALINGS WITH OTHERS. WE ACCEPT
+          NO LIABILITY FOR THOSE ACTIONS BECAUSE IT IS YOUR SOLE RESPONSIBILITY
+          TO ADEQUATE AND SAFE POST CONTENT ON OUR SITE. WE WILL NOT SHARE, RENT
+          OR SHARE YOUR INFORMATION WITH THIRD PARTIES.
+        </Text>
+        <Text
+          className=" text-[#565656] font-medium mt-[20px] text-[15px] leading-[24px]"
+          style={{ fontFamily: "Poppins-Medium" }}
+        >
+          WHEN YOU VISIT OUR SITE, WE COLLECT TECHNICAL INFORMATION ABOUT YOUR
+          COMPUTER AND HOW YOU ACCESS OUR WEBSITE AND ANALYZE THIS INFORMATION
+          SUCH AS INTERNET PROTOCOL (IP) ADDRESS OF YOUR COMPUTER. THE OPERATING
+          SYSTEM USED BY YOUR COMPUTER, THE BROWSER (EG, CHROME, FIREFOX,
+          INTERNET EXPLORER OR OTHER) YOUR COMPUTER USES, THE NAME OF YOUR
+          INTERNET SERVICE PROVIDER (ISP), THE UNIFORM RESOURCE LOCATOR (URL) OF
+          THE WEBSITE FROM WHICH YOU COME AND THE URL TO WHICH YOU GO NEXT AND
+          CERTAIN OPERATING METRICS SUCH AS THE NUMBER OF TIMES YOU USE OUR
+          WEBSITE. THIS GENERAL INFORMATION CAN BE USED TO HELP US BETTER
+          UNDERSTAND HOW OUR SITE IS VIEWED AND USED. WE MAY SHARE THIS GENERAL
+          INFORMATION ABOUT OUR SITE WITH OUR BUSINESS PARTNERS OR THE GENERAL
+          PUBLIC. FOR EXAMPLE, WE MAY SHARE THE INFORMATION ON THE NUMBER OF
+          DAILY UNIQUE VISITORS TO OUR SITE WITH POTENTIAL CORPORATE PARTNERS OR
+          USE THEM FOR ADVERTISING PURPOSES. THIS INFORMATION DOES CONTAIN ANY
+          OF YOUR PERSONAL DATA THAT CAN BE USED TO CONTACT YOU OR IDENTIFY YOU.
+        </Text>
+        <Text
+          className=" text-[#565656] font-medium mt-[20px] text-[15px] leading-[24px]"
+          style={{ fontFamily: "Poppins-Medium" }}
+        >
+          WHEN WE PLACE LINKS OR BANNERS TO OTHER SITES OF OUR WEBSITE, PLEASE
+          NOTE THAT WE DO NOT CONTROL THIS KIND OF CONTENT OR PRACTICES OR
+          PRIVACY POLICIES OF THOSE SITES. WE DO NOT ENDORSE OR ASSUME NO
+          RESPONSIBILITY FOR THE PRIVACY POLICIES OR INFORMATION COLLECTION
+          PRACTICES OF ANY OTHER WEBSITE OTHER THAN MANAGED SITES TRANZAXX.
+        </Text>
+        <Text
+          className=" text-[#565656] font-medium mt-[20px] text-[15px] leading-[24px]"
+          style={{ fontFamily: "Poppins-Medium" }}
+        >
+          WE USE THE HIGHEST SECURITY STANDARD AVAILABLE TO PROTECT YOUR
+          IDENTIFIABLE INFORMATION IN TRANSIT TO US. ALL DATA STORED ON OUR
+          SERVERS ARE PROTECTED BY A SECURE FIREWALL FOR THE UNAUTHORIZED USE OR
+          ACTIVITY CAN NOT TAKE PLACE. ALTHOUGH WE MAKE EVERY EFFORT TO PROTECT
+          YOUR PERSONAL INFORMATION AGAINST LOSS, MISUSE OR ALTERATION BY THIRD
+          PARTIES, YOU SHOULD BE AWARE THAT THERE IS ALWAYS A RISK THAT
+          LOW-INTENTIONED MANAGE TO FIND A WAY TO THWART OUR SECURITY SYSTEM OR
+          THAT INTERNET TRANSMISSIONS COULD BE INTERCEPTED.
+        </Text>
+        <Text
+          className=" text-[#565656] font-medium mt-[20px] text-[15px] leading-[24px]"
+          style={{ fontFamily: "Poppins-Medium" }}
+        >
+          WE RESERVE THE RIGHT, WITHOUT NOTICE, TO CHANGE, MODIFY, ADD OR REMOVE
+          PORTIONS OF OUR PRIVACY POLICY AT ANY TIME AND FROM TIME TO TIME.
+          THESE CHANGES WILL BE POSTED PUBLICLY ON OUR WEBSITE. WHEN YOU VISIT
+          OUR WEBSITE, YOU ACCEPT ALL THE TERMS OF OUR PRIVACY POLICY. YOUR
+          CONTINUED USE OF THIS WEBSITE CONSTITUTES YOUR CONTINUED AGREEMENT TO
+          THESE TERMS.IF YOU DO NOT AGREE WITH THE TERMS OF OUR PRIVACY POLICY,
+          YOU SHOULD CEASE USING OUR WEBSITE.
+        </Text>
+      </View>
+    </ScrollView>
   );
 };
 

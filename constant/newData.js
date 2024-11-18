@@ -61,3 +61,5 @@ export const productsCategories = [
     img: gaming,
   },
 ];
+
+export const imageUrlAppend = "https://tranzaxx.com/storage/";
