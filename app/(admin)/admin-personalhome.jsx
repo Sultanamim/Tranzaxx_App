@@ -2,6 +2,8 @@ import React from "react";
 import { Image, ScrollView, Text, View } from "react-native";
 import { Feather, FontAwesome, MaterialCommunityIcons, MaterialIcons, SimpleLineIcons } from "@expo/vector-icons";
 import DataForm from "../../components/details/PersonalDetailsForm";
+import { useSession } from "../../lib/cts";
+// import { useSession } from "../../lib/cts";
 
 
 const userForm = [
@@ -47,6 +49,8 @@ const settingsForm = [
 
 const PersonalHome = () => {
 
+  const { userInfo } = useSession();
+
   return (
     <ScrollView className=" bg-white ">
       <View className="   relative h-[140px] ">
@@ -54,7 +58,7 @@ const PersonalHome = () => {
           <View className=" absolute left-4 -bottom-11   w-[90px] h-[90px] flex flex-row justify-center items-center  bg-white rounded-full" >
             <Image
               className="absolute w-[84px]  h-[84px] rounded-full border-[1px] border-[#00AEF0]"
-              source={require("../../assets/images/human2.png")}
+              source={userInfo?.photo_url ? { uri: userInfo.photo_url } : require("../../assets/images/human2.png")}
               resizeMode="cover"
             />
           </View>
@@ -70,7 +74,7 @@ const PersonalHome = () => {
         <Text className=" font-poppins font-semibold text-[20px]  text-primaryBlk">Admin</Text>
         <View className=" mt-1 flex flex-row items-center">
           <SimpleLineIcons name="location-pin" size={14} color="#8F8F8F" />
-          <Text className=" ml-1 text-[#8F8F8F]  font-poppins font-medium text-[14px]">Ca</Text>
+          <Text className=" ml-1 text-[#8F8F8F]  font-poppins font-medium text-[14px]">{userInfo.name}</Text>
         </View>
       </View>
 

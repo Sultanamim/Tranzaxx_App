@@ -2,8 +2,10 @@ import { AntDesign } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { TouchableOpacity } from "react-native";
 import { View, Text, Image } from "react-native";
+import { useSession } from "../../lib/cts";
 
 const welcome = () => {
+
   return (
     <View className="px-4 flex-1 justify-center pb-20">
       <View className="flex gap-12 mt-32">

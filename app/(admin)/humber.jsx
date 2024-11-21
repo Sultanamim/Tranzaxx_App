@@ -10,6 +10,7 @@ import {
 } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { AppContext } from "../../store/store";
+import { useSession } from "../../lib/cts";
 // 00AEF0 change icone color
 const menuItems = [
   {
@@ -96,6 +97,7 @@ const menuItems = [
 ];
 
 export default function Menu({ setIsShowMenu }) {
+  const { signOut } = useSession()
   // bgClass: "bg-blue-100",
   // textClass: "text-blue-200",
   const [selectedPath, setSeletedPath] = useState("/admin-personalhome");
@@ -128,15 +130,13 @@ export default function Menu({ setIsShowMenu }) {
         <TouchableOpacity
           key={index}
           onPress={() => handleMenuItems(item.pathname)}
-          className={`px-[10px] py-[10px] flex flex-row items-center ${
-            selectedPath === item.pathname ? "bg-blue-100" : ""
-          }`}
+          className={`px-[10px] py-[10px] flex flex-row items-center ${selectedPath === item.pathname ? "bg-blue-100" : ""
+            }`}
         >
           {item.icon}
           <Text
-            className={`ml-3 font-poppins font-semibold text-lg ${
-              selectedPath === item.pathname ? "text-blue-200" : ""
-            }`}
+            className={`ml-3 font-poppins font-semibold text-lg ${selectedPath === item.pathname ? "text-blue-200" : ""
+              }`}
           >
             {item.title} {item.number || ""}
           </Text>
@@ -145,6 +145,7 @@ export default function Menu({ setIsShowMenu }) {
       <TouchableOpacity
         onPress={() => {
           router.replace("welcome");
+          signOut()
           setShowMenu(false);
           setIsShowMenu(false);
         }}
