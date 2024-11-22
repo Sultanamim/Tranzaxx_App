@@ -224,7 +224,7 @@ export const aboutUsData = [
 export const contact = [
   {
     page: "Categories",
-    link: "(root)/categories",
+    link: "/categories",
   },
   {
     page: "Countries",

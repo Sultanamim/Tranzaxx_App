@@ -18,8 +18,13 @@ import Location from "../../assets/images/exceptionelle/location.png";
 import Warning from "../../assets/images/exceptionelle/warning.png";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import { router } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
+
 const Exceptionelle = () => {
+  const { id } = useLocalSearchParams();
   const [isModalVisible, setModalVisible] = useState(false);
+
+  console.log(id);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -50,7 +55,6 @@ const Exceptionelle = () => {
           MODERN HOUSE IN CHARMING SUBURB
         </Text>
         <View className="flex-row mt-[16px] items-center ">
-          {" "}
           <Text
             className=" text-[16px]  font-semibold "
             style={styles.semiboldTxt}
@@ -251,7 +255,6 @@ const Exceptionelle = () => {
       >
         <View className="  mx-[15px] border-[#BFBFBF] border-t-[1px] border-b-[1px] ">
           <View className="flex-row my-[10px] justify-between ">
-            {" "}
             <Text className=" text-[#BFBFBF] text-[18px]  font-semibold ">
               FEATURES:
             </Text>

@@ -10,6 +10,7 @@ export default function RootLayout() {
       <Stack.Screen name="contact" />
       <Stack.Screen name="country" />
       <Stack.Screen name="advertise" />
+      <Stack.Screen name="categories" />
       {/* <Stack.Screen name="exceptionelle" /> */}
       <Stack.Screen name="home" />
       <Stack.Screen name="ads" />

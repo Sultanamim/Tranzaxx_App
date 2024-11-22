@@ -30,12 +30,24 @@ export const postRequest = async (endpoint, data = {}) => {
 
 // ALl GET Requests
 export const getCategoryList = () => getRequest("/categories");
+export const getSubCategoryList = (parentId) =>
+  getRequest(`/categories?parentId=${parentId}&embed=iure`);
 export const getHomeSections = () => getRequest("/homeSections");
 export const getALLPackages = () => getRequest("/packages");
 export const getALLCountries = () => getRequest("/countries");
-export const getALLPosts = () => getRequest("/posts");
+export const getALLPosts = () =>
+  getRequest(
+    "/posts?embed=user,category,postType,city,latestPayment,savedByLoggedUser,pictures,videos"
+  );
+export const getSinglePosts = (id) =>
+  getRequest(
+    `/posts/${id}?embed=user,category,postType,city,latestPayment,savedByLoggedUser,pictures,videos`
+  );
 export const getCities = (countryCode) =>
-  getRequest(`/countries/${countryCode}/cities`);
+  getRequest(
+    `/countries/${countryCode}/cities?embed=country,subAdmin1,subAdmin2`
+  );
+export const getCanadaCities = () => getRequest(`/countries/CA/cities`);
 
 //ALL POSt Requests
 export const createUser = (userData) => postRequest("/users", userData);
