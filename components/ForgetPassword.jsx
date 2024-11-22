@@ -7,10 +7,47 @@ import {
     TouchableOpacity,
 } from "react-native"
 import Btn from "./shared/Btn"
+import { useState } from "react"
 
 const ForgetPassword = ({ setIsLogin }) => {
+    const [fromdata, setFromdata] = useState("")
     const goLogin = () => {
         setIsLogin(true)
+    }
+
+    const handlerPass = async () => {
+        try {
+
+            const response = await fetch(`https://tranzaxx.com/api/auth/password/email`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    login: fromdata,
+                })
+            })
+
+            if (!response.ok) {
+                alert('Something went wrong')
+            }
+
+            const data = await response.json();
+            if (!data.success) {
+                if (data.message === "passwords.throttled") {
+                    alert('Please wait a few seconds then try again')
+                    return;
+                }
+                alert(`${data.message}`)
+            }
+            if (data.success) {
+                alert('Check your email for password reset link')
+            }
+
+        } catch (e) {
+            console.log(e)
+        }
+
     }
     return (
         <ScrollView className="px-4">
@@ -33,6 +70,8 @@ const ForgetPassword = ({ setIsLogin }) => {
                             <TextInput
                                 placeholder="EMAIL OR PHONE"
                                 className=" placeholder:text-[#BFBFBF] font-poppins text-[16px] "
+                                value={fromdata}
+                                onChangeText={(e) => setFromdata(e)}
                             />
                             <Image
                                 source={require("../assets/images/form/men.png")}
@@ -41,7 +80,7 @@ const ForgetPassword = ({ setIsLogin }) => {
                         </View>
                     </View>
                     <View className="flex-1 gap-5 mt-5">
-                        <Btn title={"submit"} />
+                        <Btn title={"submit"} handler={handlerPass} />
                         <Btn title={"Back To Login"} handler={goLogin} />
                     </View>
                 </View>

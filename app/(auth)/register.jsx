@@ -8,15 +8,128 @@ import {
 } from "react-native"
 import React, { useState } from "react"
 import Btn from "../../components/shared/Btn"
-import { Ionicons } from "@expo/vector-icons"
 import { registerInputData } from "../../constant/data"
 import { router } from "expo-router"
+
+const handleErrorResponse = (response) => {
+    const { errors, message } = response;
+
+    if (errors) {
+        // Collect all error messages
+        const errorMessages = Object.keys(errors)
+            .map((key) => `${key.charAt(0).toUpperCase() + key.slice(1)}: ${errors[key][0]}`)
+            .join("\n");
+
+        alert(`${errorMessages}`);
+    } else {
+        alert("Error", message || "An unknown error occurred.");
+    }
+};
 
 const Register = () => {
     const [agree, setAgree] = useState(false)
     const [hidePhoneNumber, setHidePhoneNumber] = useState(false)
     const [receiveMarketingEmail, setReceiveMarketingEmail] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
+    const [isSuccess, setisSuccess] = useState(false);
     // const toggleCheckbox = () => {}
+
+
+    const [formValues, setFormValues] = useState(
+        registerInputData.reduce((acc, field) => {
+            acc[field.value] = "";
+            return acc;
+        }, {})
+    );
+
+
+    const handleInputChange = (value, fieldName) => {
+        setFormValues((prev) => ({
+            ...prev,
+            [fieldName]: value,
+        }));
+    };
+
+
+    // Example submit handler
+    const handleSubmit = async () => {
+        // Validate form fields
+        const missingFields = registerInputData.filter(
+            (field) => !formValues[field.value]
+        );
+        if (missingFields.length > 0) {
+            alert(
+                `Please fill in the following fields: ${missingFields
+                    .map((field) => field.value)
+                    .join(", ")}`
+            );
+            return;
+        }
+        if (!agree) {
+            alert("You must agree to the terms and conditions.");
+            return;
+        }
+
+        const userInfo = {
+            name: formValues.name,
+            phone: formValues.phone,
+            phone_hidden: hidePhoneNumber,
+            email: formValues.email,
+            username: formValues.name,
+            password: formValues.password,
+            password_confirmation: formValues.confirmedpassword,
+            accept_terms: agree,
+            accept_marketing_offers: receiveMarketingEmail,
+            captcha_key: '',
+        }
+
+        setIsLoading(true);
+
+        try {
+            const response = await fetch(`https://tranzaxx.com/api/users`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Content-Type': 'multipart/form-data',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(userInfo),
+            })
+
+            if (!response.ok) {
+                alert('Failed to register. Please check your credentials.');
+            }
+
+            const data = await response.json();
+
+
+            if (!data.success) {
+                handleErrorResponse(data)
+            }
+            if (data.success) {
+
+
+
+                setisSuccess(true);
+                alert(data.extra.sendEmailVerification.message)
+
+                // reset
+                setFormValues(
+                    registerInputData.reduce((acc, field) => {
+                        acc[field.value] = "";
+                        return acc;
+                    }, {})
+                );
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+        finally {
+            setIsLoading(false);
+        }
+    };
+
 
     return (
         <ScrollView className="px-4">
@@ -38,6 +151,13 @@ const Register = () => {
                                             <TextInput
                                                 placeholder={data.placeholder}
                                                 className="text-[#BFBFBF] text-[16px] font-poppins min-w-[80%]"
+                                                value={formValues[data.value]}
+                                                onChangeText={(text) =>
+                                                    handleInputChange(
+                                                        text,
+                                                        data.value
+                                                    )
+                                                }
                                             />
                                             {data.thirdIcon !== "" && (
                                                 <Image
@@ -76,7 +196,7 @@ const Register = () => {
                             onPress={() => setHidePhoneNumber(!hidePhoneNumber)}
                             className="w-7 h-7 border-[1px] border-[#BFBFBF] mr-2 items-center justify-center"
                         >
-                            {agree && <View className="w-3 h-3 bg-[#000]" />}
+                            {hidePhoneNumber && <View className="w-3 h-3 bg-[#000]" />}
                         </TouchableOpacity>
                         <View className="flex-row items-center">
                             <Text className="text-[#010101] font-poppins text-[12px] uppercase">
@@ -88,12 +208,10 @@ const Register = () => {
                 <View className="px-4">
                     <View className="mt-3 flex-row items-center">
                         <TouchableOpacity
-                            onPress={() =>
-                                setReceiveMarketingEmail(!receiveMarketingEmail)
-                            }
+                            onPress={() => setReceiveMarketingEmail(!receiveMarketingEmail)}
                             className="w-7 h-7 border-[1px] border-[#BFBFBF] mr-2 items-center justify-center"
                         >
-                            {agree && <View className="w-3 h-3 bg-[#000]" />}
+                            {receiveMarketingEmail && <View className="w-3 h-3 bg-[#000]" />}
                         </TouchableOpacity>
                         <View className="flex-row items-center">
                             <Text className="text-[#010101] font-poppins text-[12px] uppercase">
@@ -105,7 +223,13 @@ const Register = () => {
                         <View className="">
                             <Btn
                                 title={"Register"}
-                                handler={() => router.push("(root)/home")}
+                                handler={() => {
+                                    if (!isLoading) {
+                                        handleSubmit()
+                                    }
+                                    // router.push("(root)/home")
+                                }
+                                }
                             />
                         </View>
                         <View className="mt-5 text-[#999] font-poppins flex-row items-center justify-center">

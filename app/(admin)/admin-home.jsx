@@ -3,6 +3,7 @@ import { ScrollView } from "react-native";
 import AdminTopSelectArea from "../../components/Header/adminSelectArea copy";
 import { Text } from "react-native";
 
+
 const AdminHome = () => {
   return (
     <ScrollView className=" bg-white ">

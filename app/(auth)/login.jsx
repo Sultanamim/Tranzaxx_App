@@ -1,13 +1,17 @@
 import { View, Text, ScrollView, TextInput } from "react-native"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Image } from "react-native"
 import { Ionicons } from "@expo/vector-icons"
 import { TouchableOpacity } from "react-native"
 import Btn from "../../components/shared/Btn"
 import ForgetPassword from "../../components/ForgetPassword"
 import { router } from "expo-router"
+import { useSession } from "../../lib/cts"
 
 export default function Login() {
+    const { signIn } = useSession();
+
+
     const [isLogin, setIsLogin] = useState(true)
     const [values, setValues] = useState({
         email: "",
@@ -19,6 +23,11 @@ export default function Login() {
         setIsChecked(!isChecked)
     }
     if (!isLogin) return <ForgetPassword setIsLogin={setIsLogin} />
+
+
+
+    // console.log(captcha.key)
+
     return (
         <ScrollView className="px-4">
             <View className="shadow-loginShadow rounded-[12px]  bg-white pb-6 mt-[50px]">
@@ -41,6 +50,8 @@ export default function Login() {
                                 <TextInput
                                     placeholder="EMAIL OR PHONE"
                                     className=" placeholder:text-[#BFBFBF] font-poppins text-[16px] "
+                                    value={values.email}
+                                    onChangeText={(e) => setValues(prev => ({ ...prev, email: e }))}
                                 />
                                 <Image
                                     source={require("../../assets/images/form/men.png")}
@@ -62,8 +73,10 @@ export default function Login() {
                                     resizeMode="cover"
                                 />
                                 <TextInput
-                                    placeholder="EMAIL OR PHONE"
+                                    placeholder="Write Password"
                                     className=" placeholder:text-[#BFBFBF] font-poppins text-[16px] w-[80%]"
+                                    value={values.password}
+                                    onChangeText={(e) => setValues(prev => ({ ...prev, password: e }))}
                                 />
                                 <Ionicons
                                     name="eye"
@@ -95,10 +108,28 @@ export default function Login() {
                         </Text>
                     </View>
                 </View>
+
                 <View className="mt-5">
                     <Btn
                         title={"Login"}
-                        handler={() => router.replace("(root)/home")}
+                        handler={async () => {
+                            if (!values.email) {
+                                alert("Please fill all fields")
+                                return;
+                            }
+                            if (!values.password) {
+                                alert("Please enter password")
+                                return;
+                            }
+                            const check = await signIn({ email: values.email, password: values.password, captcha_key: '' })
+
+
+                            if (check) {
+                                router.replace('/');
+                            }
+                            //  router.replace("(root)/home")}
+                            // router.replace('/');
+                        }}
                     />
                 </View>
                 <View className="mt-5 text-[#999] font-poppins flex-row items-center justify-center">

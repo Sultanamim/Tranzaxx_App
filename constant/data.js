@@ -153,30 +153,35 @@ export const registerInputData = [
     thirdIcon: "",
     name: "Name",
     placeholder: "name",
+    value: "name"
   },
   {
     firstIcon: phone,
     thirdIcon: country,
     name: "Phone",
     placeholder: "PHONE NUMBER",
+    value: "phone"
   },
   {
     firstIcon: email,
     email: "Email",
     placeholder: "Email",
     thirdIcon: "",
+    value: "email"
   },
   {
     firstIcon: lock,
     name: "Password",
     placeholder: "AT  LEAST 6 CHARACTERS",
     thirdIcon: eyeIcon,
+    value: "password"
   },
   {
     firstIcon: lock,
     name: "PASSWORD CONFIRMATION",
     placeholder: "AT  LEAST 6 CHARACTERS",
     thirdIcon: eyeIcon,
+    value: "confirmedpassword",
   },
 ];
 
