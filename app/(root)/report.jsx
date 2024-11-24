@@ -8,15 +8,63 @@ import {
 } from "react-native";
 import { productsCategories } from "../../constant/newData";
 import { useState } from "react";
+import { useLocalSearchParams } from "expo-router";
+import { set } from "date-fns";
+import { Alert } from "react-native";
+import { reportPost } from "../../apiService";
 
 const Report = () => {
+  const { id } = useLocalSearchParams();
   const [selectedCategory, setSelectedCategory] = useState("SELECT A CATEGORY");
   const [showDropdown, setShowDropdown] = useState(false);
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
 
   const selectingProduct = productsCategories;
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
     setShowDropdown(false);
+  };
+
+  const handleSubmit = async () => {
+    const data = {
+      report_type_id: 2,
+      email: email,
+      message: message,
+      captcha_key: "",
+    };
+    if (message.length < 20) {
+      Alert.alert(
+        "Error",
+        "The message must be between 20 and 1000 characters.",
+        [
+          {
+            text: "Close",
+            // onPress: () => console.log("Cancel Pressed"),
+            style: "cancel",
+          },
+          // {text: 'OK', onPress: () => console.log('OK Pressed')},
+        ]
+      );
+    } else {
+      try {
+        const result = await reportPost(id, data);
+        if (result.success) {
+          Alert.alert("", result.message, [
+            {
+              text: "Close",
+              // onPress: () => console.log("Cancel Pressed"),
+              style: "cancel",
+            },
+            // {text: 'OK', onPress: () => console.log('OK Pressed')},
+          ]);
+          setMessage("");
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    //  console.log(data);
   };
   return (
     <ScrollView
@@ -87,6 +135,8 @@ const Report = () => {
         <TextInput
           className="border-[1px] border-[#00AEF0] text-[16px] font-BebasNeue rounded-[4px] p-[10px] mt-[10px]"
           placeholder="E-mail"
+          value={email}
+          onChangeText={setEmail}
         />
         <View className=" mt-[20px] ">
           <Text className=" text-[16px] font-BebasNeue font-semibold">
@@ -95,13 +145,18 @@ const Report = () => {
           <TextInput
             className="border-[1px] border-[#00AEF0] font-BebasNeue text-[16px] rounded-[4px] p-[8px] pb-[50px] mt-[10px]"
             placeholder="Message"
+            value={message}
+            onChangeText={setMessage}
           />
         </View>
         <View className=" flex-row items-center justify-between">
           <TouchableOpacity className=" mt-[10px] rounded-[4px] py-[10px]items-center">
             <Text className="font-BebasNeue text-[20px]">Back</Text>
           </TouchableOpacity>
-          <TouchableOpacity className="bg-[#00ADEF] mt-[10px] w-[125px] rounded-[4px] py-[10px] px-[15px] items-center">
+          <TouchableOpacity
+            onPress={handleSubmit}
+            className="bg-[#00ADEF] mt-[10px] w-[125px] rounded-[4px] py-[10px] px-[15px] items-center"
+          >
             <Text className="font-BebasNeue text-[18px]  text-[#FFFFFF]">
               Send Report
             </Text>

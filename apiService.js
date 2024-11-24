@@ -9,6 +9,11 @@ const apiClient = axios.create({
 });
 
 export const getRequest = async (endpoint, params = {}) => {
+  const queryParams = new URLSearchParams(params).toString(); // Converts params object to query string
+  const fullUrl = `${apiClient.defaults.baseURL}${endpoint}${
+    queryParams ? `?${queryParams}` : ""
+  }`;
+  // console.log(`Full GET URL: ${fullUrl}`); // Log the full URL
   try {
     const response = await apiClient.get(endpoint, { params });
     return response.data;
@@ -43,11 +48,23 @@ export const getSinglePosts = (id) =>
   getRequest(
     `/posts/${id}?embed=user,category,postType,city,latestPayment,savedByLoggedUser,pictures,videos`
   );
+export const getSinglePostsWithDetail = (id) =>
+  getRequest(
+    `/posts/${id}?embed=user,category,postType,city,latestPayment,savedByLoggedUser,pictures,videos&detailed=features`
+  );
 export const getCities = (countryCode) =>
   getRequest(
     `/countries/${countryCode}/cities?embed=country,subAdmin1,subAdmin2`
   );
 export const getCanadaCities = () => getRequest(`/countries/CA/cities`);
 
+export const getPrivacyPage = () => getRequest(`/pages/Privacy`);
+export const getTermsPage = () => getRequest(`/pages/Terms`);
+export const getAntiScamPage = () => getRequest(`/pages/Anti-scam`);
+export const getSocialLinks = () => getRequest(`/settings/social_link`);
+
 //ALL POSt Requests
 export const createUser = (userData) => postRequest("/users", userData);
+export const sendContact = (data) => postRequest("/contact", data);
+export const reportPost = (id, data) =>
+  postRequest(`/posts/${id}/report`, data);

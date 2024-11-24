@@ -62,4 +62,40 @@ export const productsCategories = [
   },
 ];
 
+export const additionalDetail = [
+  {
+    name: "CAR BRAND",
+    value: "PORSCHE",
+  },
+  {
+    name: "YEAR OF REGISTRATION",
+    value: "2022",
+  },
+  {
+    name: "FUEL TYPE",
+    value: "ESSENCE",
+  },
+  {
+    name: "TRANSMISSION",
+    value: "AUTOMATIC",
+  },
+  {
+    name: "CONDITION",
+    value: "USED",
+  },
+  {
+    name: "MILEAGE",
+    value: "25000",
+  },
+];
+export const characteristics = [
+  " DESIGN AERODYNAMIQUE AVEC UN AILERON ARRIÈRE DISTINCTIF",
+  "COULEURS ORANGE ET NOIR ATTRAYANTES",
+  "TECHNOLOGIE DE POINTE",
+  "PERFORMANCES EXCEPTIONNELLES",
+];
+
 export const imageUrlAppend = "https://tranzaxx.com/storage/";
+export const PostImgPrepend = "https://vz-9285a61e-4e6.b-cdn.net/";
+export const PostImgAppend = "/thumbnail.jpg";
+export const videoUrlPrepend = "https://iframe.mediadelivery.net/embed/";

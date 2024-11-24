@@ -5,9 +5,8 @@ import { View, Text, Image } from "react-native";
 import { useSession } from "../../lib/cts";
 
 const welcome = () => {
-
   return (
-    <View className="px-4 flex-1 justify-center pb-20">
+    <View className="px-4 flex-1 " style={{ marginTop: 50 }}>
       <View className="flex gap-12 mt-32">
         <Image
           source={require("../../assets/images/tranzazz.png")}
@@ -15,7 +14,10 @@ const welcome = () => {
           resizeMode="cover"
         />
         <View>
-          <Text className="text-[#1A1A1A] font-semibold text-[28px] font-poppins text-center">
+          <Text
+            className="text-[#1A1A1A] text-[28px] text-center"
+            style={{ fontFamily: "Poppins-SemiBold" }}
+          >
             WELCOME TO TRANZAXX!
           </Text>
           <Text className="text-center text-[#666] font-poppins mt-5 text-[15px] leading-[24px]">
@@ -29,21 +31,27 @@ const welcome = () => {
             className="bg-[#00ADEF] py-4 rounded-[12px]"
             onPress={() => router.push("/login")}
           >
-            <Text className="font-poppins text-[18px] text-white font-semibold text-center">
-              Login
+            <Text
+              className=" text-[18px] text-white text-center"
+              style={{ fontFamily: "Poppins-SemiBold" }}
+            >
+              Log in
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             className="py-4 rounded-[12px] mt-6"
             onPress={() => router.push("/register")}
           >
-            <Text className="font-poppins text-[18px] text-primary font-semibold text-center">
+            <Text
+              className=" text-[18px] text-center"
+              style={{ color: "#00ADEF", fontFamily: "Poppins-SemiBold" }}
+            >
               Sign up
             </Text>
           </TouchableOpacity>
         </View>
       </View>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         className="py-4 rounded-[12px] flex-row items-center gap-2 justify-center mt-6"
         // onPress={() => router.replace("onboard")}
         onPress={() => router.replace("admin-personalhome")}
@@ -52,10 +60,11 @@ const welcome = () => {
           Skip for now admin
         </Text>
         <AntDesign name="arrowright" size={24} color="black" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       <TouchableOpacity
-        className="py-4 rounded-[12px] flex-row items-center gap-2 justify-center mt-6"
+        className="py-4 rounded-[12px] flex-row items-center gap-2 justify-center"
+        style={{ marginTop: 120 }}
         onPress={() => router.replace("onboard")}
       >
         <Text className="font-poppins text-[18px] text-[#333] font-medium text-center">

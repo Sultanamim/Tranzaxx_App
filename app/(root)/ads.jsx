@@ -43,7 +43,9 @@ const ads = () => {
         {isLoading ? (
           <ActivityIndicator size="large" color="#00AEF0" />
         ) : (
-          posts?.map((ads) => <AdsCard key={ads.id} ads={ads} />)
+          posts?.map((ads, index) => (
+            <AdsCard key={ads.id} ads={ads} index={index} />
+          ))
         )}
       </View>
     </ScrollView>

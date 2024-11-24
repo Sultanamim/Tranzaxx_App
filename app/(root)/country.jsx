@@ -29,7 +29,10 @@ const Country = () => {
       <View className="mt-4">
         <PopupMessage />
       </View>
-      <Text className="text-primaryBlk font-poppins text-[24px] font-semibold mt-[33px]">
+      <Text
+        className="text-primaryBlk font-poppins text-[24px] mt-[33px] uppercase"
+        style={{ fontFamily: "Poppins-SemiBold" }}
+      >
         Countries
       </Text>
       <View className="flex-row flex-wrap -mx-1.5 gap-x-3 gap-y-2 mt-4">

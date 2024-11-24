@@ -107,12 +107,14 @@ const Categories = () => {
                     <Image
                       source={{ uri: `${imageUrlAppend}${category.picture}` }}
                       resizeMode="cover"
-                      className="w-[32px] h-[32px]"
+                      // className="w-[72px] h-[72px]"
+                      width={72}
+                      height={72}
                     />
                   </View>
                 </View>
                 <Text
-                  className="text-[18px] font-semibold text-center mt-[20px] mb-[10px]"
+                  className="text-[18px] font-semibold text-center mt-[20px] mb-[10px] uppercase"
                   style={{ fontFamily: "Poppins-SemiBold" }}
                 >
                   {category.name}
