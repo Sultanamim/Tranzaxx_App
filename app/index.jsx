@@ -21,7 +21,10 @@ const index = () => {
     // <Redirect href={"(admin)/admin-personalhome"} />
     //  <Redirect href={"(root)/home"} />
 
-    return <Redirect href={"(admin)/admin-personalhome"} />
+    // href={"(auth)/onboard"}
+    // href={"(admin)/admin-personalhome"}
+    // href={"(admin)/admin-personalhome"}
+    return <Redirect href={"(auth)/onboard"} />
 }
 
 export default index

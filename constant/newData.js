@@ -13,50 +13,62 @@ import gaming from "../assets/images/listing/gaming.png";
 
 export const productsCategories = [
   {
+    id: 1,
     name: "Real State",
     img: realState,
   },
   {
+    id: 2,
     name: "Automobiles",
     img: automobile,
   },
   {
+    id: 3,
     name: "Electronics",
     img: electronic,
   },
   {
+    id: 4,
     name: "Phones & Tablets",
     img: phone,
   },
   {
+    id: 5,
     name: "Animal & Pets",
     img: animal,
   },
   {
+    id: 6,
     name: "Clothing & fashion",
     img: fashion,
   },
   {
+    id: 7,
     name: "Jobs",
     img: jobs,
   },
   {
+    id: 8,
     name: "Services",
     img: services,
   },
   {
+    id: 9,
     name: "Books & Learning",
     img: books,
   },
   {
+    id: 10,
     name: "Furniture & Appliances",
     img: furniture,
   },
   {
+    id: 11,
     name: "Beauty",
     img: Beauty,
   },
   {
+    id: 12,
     name: "Gaming",
     img: gaming,
   },
