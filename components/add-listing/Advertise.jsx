@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -19,19 +19,61 @@ import ThumbnailImg from "../../assets/images/listing/thumbnail.png";
 import DollerCircleImg from "../../assets/images/listing/doller-circle.png";
 import UserImg from "../../assets/images/listing/user.png";
 import { Video } from "expo-av";
+import { getCanadaCities } from "../../apiService";
 
-function Advertise() {
+function Advertise({
+  advertiseData,
+  setAdvertiseData,
+  negotiable,
+  setNegotiable,
+}) {
+  const [canadaCities, setCanadaCities] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("SELECT A CATEGORY");
+  const [selectedCity, setSeleledCity] = useState("SELECT A CITY");
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showcitDropdown, setShowcitDropdown] = useState(false);
   const [thumbnail, setThumbnail] = useState(null);
   const [video, setVideo] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [negotiable, setNegotiable] = useState(false);
   const videoRef = useRef(null);
+
+  // city data
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const data = await getCanadaCities();
+        // console.log(data.result.data);
+        setCanadaCities(
+          data?.result.data?.map(({ name, id }) => ({ name, id }))
+        );
+      } catch (error) {
+        console.error("Failed to fetch users:", error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  const handleCitySelect = (cat) => {
+    setSeleledCity(cat);
+
+    const seletedCityId = canadaCities.find((item) => item.name === cat)?.id;
+    setAdvertiseData((prev) => ({ ...prev, selected_city_id: seletedCityId }));
+
+    setShowcitDropdown(false);
+  };
 
   const selectingProduct = productsCategories;
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
+    const seletedcategoryId = selectingProduct.find(
+      (item) => item.name === category
+    )?.id;
+    setAdvertiseData((prev) => ({
+      ...prev,
+      selected_Category_id: seletedcategoryId,
+    }));
+
     setShowDropdown(false);
   };
 
@@ -55,6 +97,10 @@ function Advertise() {
     if (!result.canceled) {
       console.log(result.assets[0].uri);
       setThumbnail(result.assets[0].uri);
+      setAdvertiseData((prev) => ({
+        ...prev,
+        thumbnail: result.assets[0].uri,
+      }));
     }
   };
 
@@ -77,6 +123,7 @@ function Advertise() {
 
     if (!result.canceled) {
       setVideo(result.assets[0].uri); // Store the video URI
+      setAdvertiseData((prev) => ({ ...prev, video: result.assets[0].uri }));
     }
   };
   const handlePlayPause = async () => {
@@ -87,6 +134,7 @@ function Advertise() {
     }
     setIsPlaying(!isPlaying);
   };
+
   return (
     <>
       {/* Add Information */}
@@ -183,6 +231,10 @@ function Advertise() {
           style={{
             padding: Platform.OS === "ios" ? 12 : 8,
           }}
+          value={advertiseData.title}
+          onChangeText={(e) =>
+            setAdvertiseData((prev) => ({ ...prev, title: e }))
+          }
         />
         <Text
           className=" mt-[10px] text-[13px]"
@@ -200,6 +252,10 @@ function Advertise() {
           <TextInput
             className="border-[1px] border-[#DADADA] rounded-[4px] p-[8px] pb-[50px] mt-[10px]"
             placeholder="TELL US ABOUT YOUR PROJECT..."
+            value={advertiseData.description}
+            onChangeText={(e) =>
+              setAdvertiseData((prev) => ({ ...prev, description: e }))
+            }
           />
         </View>
         {/* Thumbnail */}
@@ -329,7 +385,15 @@ function Advertise() {
             className="w-[20px] h-[20px]"
             style={{ marginRight: 5 }}
           />
-          <TextInput className="" placeholder="ENTER PRICE" />
+          <TextInput
+            className=""
+            placeholder="ENTER PRICE"
+            value={advertiseData.price}
+            onChangeText={(e) =>
+              setAdvertiseData((prev) => ({ ...prev, price: e }))
+            }
+            keyboardType="numeric"
+          />
         </View>
         {/* Negotiable */}
         <View className="flex flex-row items-center mt-2">
@@ -365,17 +429,60 @@ function Advertise() {
           CITY*
         </Text>
         <TouchableOpacity
-          onPress={() => setShowDropdown(!showDropdown)}
+          //  onPress={() => setcat}
+          // onPress={handleCitySelect}
+          onPress={() => setShowcitDropdown(true)}
           className="border-[1px] border-[#DADADA] rounded-[4px] mt-[10px]"
           style={{
             padding: Platform.OS === "ios" ? 12 : 10,
           }}
         >
           <View className=" flex-row flex justify-between">
-            <Text className="text-[14px] text-[#010101]">SELECT A CITY</Text>
+            <Text className="text-[14px] text-[#010101]">{selectedCity}</Text>
             <Entypo name="chevron-thin-down" size={16} color="black" />
           </View>
         </TouchableOpacity>
+
+        {/* ref further need to delete*/}
+        {showcitDropdown && (
+          <View
+            className=" mt-[10px] rounded-[8px] bg-white px-[20px] pb-[15px] "
+            style={{
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.25,
+              shadowRadius: 4.65,
+              elevation: 8,
+            }}
+          >
+            <View className="flex-row flex justify-between items-center pt-[15px] ">
+              <Text className=" text-[16px] font-semibold  ">
+                Select a category
+              </Text>
+              <View className="bg-[#00AEF0] p-[6px] rounded-2xl ">
+                <Image
+                  source={require("../../assets/images/listing/cross.png")}
+                  resizeMode="cover"
+                  className="w-3  h-3"
+                />
+              </View>
+            </View>
+            {canadaCities.map((cit, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() => handleCitySelect(cit.name)}
+                className="py-[12px]  border-b-[1px] border-[#BFBFBF]"
+              >
+                <View className="flex-row items-center">
+                  <Text className="ml-[6px] text-[14px] text-[#010101]">
+                    {cit.name}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
+        )}
+
         {/* Tags */}
         <Text
           className=" text-[16px] mt-[15px]"
@@ -389,6 +496,10 @@ function Advertise() {
           style={{
             padding: Platform.OS === "ios" ? 12 : 8,
           }}
+          value={advertiseData.tags}
+          onChangeText={(e) =>
+            setAdvertiseData((prev) => ({ ...prev, tags: e }))
+          }
         />
         <Text
           className="text-[14px] text-[#737373]"

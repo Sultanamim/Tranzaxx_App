@@ -9,60 +9,74 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 
-export default function Payments() {
+const Country = ["Canada", "USA", "Bangladesh"];
+
+export default function Payments({ cardholderData, setCardHolderData }) {
   const [showDropdown, setShowDropdown] = useState(false);
-  const Country = ["Canada", "USA", "Bangladesh"];
   const [selectedCountry, setSelectedCountry] = useState(Country[0]);
+
+  const handleInputChange = (field, value) => {
+    setCardHolderData((prevData) => ({
+      ...prevData,
+      [field]: value,
+    }));
+  };
+
+
+  const handleCountrySelect = (country) => {
+    setSelectedCountry(country);
+    handleInputChange("country", country);
+    setShowDropdown(false);
+  };
 
   const holderformItems = [
     {
       title: "FIRST NAME*",
       placeholder: "CARD HOLDER'S FIRST NAME",
       type: "text",
-      value: "",
-      changeFunction: "",
+      value: cardholderData.first_name,
+      changeFunction: (value) => handleInputChange("first_name", value),
     },
     {
       title: "LAST NAME*",
       placeholder: "CARD HOLDER'S LAST NAME",
       type: "text",
-      value: "",
-      changeFunction: "",
+      value: cardholderData.last_name,
+      changeFunction: (value) => handleInputChange("last_name", value),
     },
     {
       title: "ADDRESS*",
       placeholder: "CARD HOLDER'S ADDRESS",
       type: "text",
-      value: "",
-      changeFunction: "",
+      value: cardholderData.address,
+      changeFunction: (value) => handleInputChange("address", value),
     },
     {
       title: "CITY*",
       placeholder: "CARD HOLDER'S CITY",
       type: "text",
-      value: "",
-      changeFunction: "",
+      value: cardholderData.city,
+      changeFunction: (value) => handleInputChange("city", value),
     },
     {
       title: "STATE/PROVINCE*",
       placeholder: "CARD HOLDER'S STATE/PROVINCE",
       type: "text",
-      value: "",
-      changeFunction: "",
+      value: cardholderData.state,
+      changeFunction: (value) => handleInputChange("state", value),
     },
     {
       title: "POSTAL CODE*",
       placeholder: "CARD HOLDER'S POSTAL CODE",
       type: "text",
-      value: "",
-      changeFunction: "",
+      value: cardholderData.postal_code,
+      changeFunction: (value) => handleInputChange("postal_code", value),
     },
     {
       title: "COUNTRY*",
       placeholder: "CARD HOLDER'S COUNTRY",
       type: "select",
-      value: "",
-      changeFunction: "",
+      value: cardholderData.country,
       dropdownItems: Country,
     },
   ];
@@ -119,6 +133,9 @@ export default function Payments() {
                 padding: Platform.OS === "ios" ? 12 : 8,
               }}
               placeholder={item.placeholder}
+              value={item.value}
+              onChangeText={item.changeFunction}
+            // keyboardType={item?.type === "numeric" ? "numeric" : "default"}
             />
           ) : (
             <View>
@@ -161,18 +178,23 @@ export default function Payments() {
                         right: 9,
                       }}
                     ></View>
+
                     {item.dropdownItems?.map((item, index) => (
-                      <Text
-                        key={index}
-                        className="mb-4 "
-                        style={{
-                          color: "#010101",
-                          fontFamily: "Poppins-SemiBold",
-                          fontSize: 15,
-                        }}
+                      <TouchableOpacity
+                        onPress={() => handleCountrySelect(item)}
                       >
-                        {item}
-                      </Text>
+                        <Text
+                          key={index}
+                          className="mb-4 "
+                          style={{
+                            color: "#010101",
+                            fontFamily: "Poppins-SemiBold",
+                            fontSize: 15,
+                          }}
+                        >
+                          {item}
+                        </Text>
+                      </TouchableOpacity>
                     ))}
                   </View>
                 </View>

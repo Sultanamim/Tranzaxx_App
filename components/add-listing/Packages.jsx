@@ -1,20 +1,26 @@
 import { View, Text, Image, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import { getALLPackages } from "../../apiService";
-import { Entypo } from "@expo/vector-icons";
+import { Entypo, Feather } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native";
 
-export default function Packages() {
+export default function Packages({ setPackagesId }) {
+  const [isLoading, setIsLoading] = useState(false)
   const [packages, setPackages] = useState(null);
   const [selectedPackage, setSelectedPackage] = useState(null);
 
   useEffect(() => {
     const fetchUsers = async () => {
+      setIsLoading(true);
       try {
         const data = await getALLPackages();
         //console.log(data.result.data);
         setPackages(data?.result.data);
       } catch (error) {
         console.error("Failed to fetch users:", error);
+      }
+      finally {
+        setIsLoading(false);
       }
     };
 
@@ -38,25 +44,41 @@ export default function Packages() {
           </Text>
         </View>
       </View>
-
+      {
+        isLoading && <Text>Please Wait for some time</Text>
+      }
       {/* All packages */}
       {packages && (
         <View className="my-3">
           {packages?.map((item, index) => (
-            <View
+            <TouchableOpacity
+              key={index}
               className="flex flex-row items-center justify-between"
               style={styles.items}
+              onPress={() => {
+                setSelectedPackage(item.id)
+                setPackagesId(item.id)
+              }}
             >
               <View
                 className="flex flex-row items-center"
                 style={{ width: 230 }}
               >
-                <Entypo
+                {
+                  selectedPackage === item.id ? (
+                    <Feather name="check-circle" size={17} color="#00AEF0" style={styles.icon} />
+                  ) : (
+                    <Feather name="circle" size={17} color="#BFBFBF" style={styles.icon} />
+                  )
+                }
+                {/* <Entypo
                   name="circle"
                   size={17}
                   color="#00AEF0"
                   style={styles.icon}
                 />
+                <Feather name="check-circle" size={17}
+                  color="#00AEF0" style={styles.icon} /> */}
                 <Text className="uppercase" style={styles.name}>
                   {item.name}
                 </Text>
@@ -67,7 +89,7 @@ export default function Packages() {
                 )}
               </View>
               <Text style={[styles.price]}>${item.price}</Text>
-            </View>
+            </TouchableOpacity>
           ))}
         </View>
       )}

@@ -22,49 +22,256 @@ import FeaturedImg from "../../assets/images/listing/featured.png";
 import Packages from "../../components/add-listing/Packages";
 import Payments from "../../components/add-listing/Payments";
 import Advertise from "../../components/add-listing/Advertise";
+import { useSession } from "../../lib/cts";
 
 const AddListing = () => {
+  const { userInfo, session, isLoading } = useSession();
+
+  const [advertiseData, setAdvertiseData] = useState({
+    selected_Category_id: "",
+    selected_city_id: "",
+    title: "",
+    description: "",
+    price: "",
+    tags: "",
+    thumbnail: null,
+    video: null,
+  }); //this code is for advertise jsx
+
+  const [cardholderData, setCardHolderData] = useState({
+    first_name: "",
+    last_name: "",
+    address: "",
+    city: "",
+    state: "",
+    postal_code: "",
+    country: "",
+  }); //card holder information
+
+  const [cardData, setCardData] = useState({
+    card_number: "",
+    card_exp_month: "",
+    card_exp_year: "",
+    cvv: "",
+  });
+
   const [selectedButton, setSelectedButton] = useState("ADVERTISE");
-  const [selectedCategory, setSelectedCategory] = useState("SELECT A CATEGORY");
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [thumbnail, setThumbnail] = useState(null);
-  const [video, setVideo] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [negotiable, setNegotiable] = useState(false);
   const [hide, setHide] = useState(false);
   const [featured, setFeatured] = useState(false);
   const videoRef = useRef(null);
+
+  const [sellerInformations, setSellerInformations] = useState({
+    name: "",
+    email: "",
+    phone: "",
+  });
+
+  const [package_id, setPackagesId] = useState(null);
+
+  const handlerAdvertise = () => {
+    // Check if all required fields in advertiseData are filled
+    const requiredAdvertiseFields = [
+      { field: "selected_Category_id", label: "category" },
+      { field: "title", label: "title" },
+      { field: "description", label: "description" },
+      { field: "video", label: "video" },
+      { field: "selected_city_id", label: "city" },
+      { field: "tags", label: "tags" },
+    ];
+
+    const requiredSellerFields = [
+      { field: "name", label: "seller name" },
+      { field: "email", label: "seller email" },
+    ];
+
+    // Validate advertiseData
+    for (let { field, label } of requiredAdvertiseFields) {
+      if (!advertiseData[field]) {
+        alert(`Please fill the required ${label} field in Add information.`);
+        return;
+      }
+    }
+
+    // Validate sellerInformations
+    for (let { field, label } of requiredSellerFields) {
+      if (!sellerInformations[field]) {
+        alert(`Please fill the required ${label} field in Seller Information.`);
+        return;
+      }
+    }
+
+    // Ensure featured is true
+    if (!featured) {
+      alert("Please mark this advertisement featured.");
+      return;
+    }
+
+    setSelectedButton("PACKAGES");
+    // Combine sellerInformations, advertiseData, and featured status
+    // console.log({ ...sellerInformations, ...advertiseData, featured });
+  };
+
+  const handlerPackage = () => {
+    if (!package_id) {
+      alert("Please select a package.");
+      return;
+    }
+    setSelectedButton("PAYMENTS");
+  };
 
   const cardformItems = [
     {
       title: "CARD NUMBER*",
       placeholder: "CARD NUMBER",
       type: "text",
-      value: "",
-      changeFunction: "",
+      value: cardData.card_number,
+      changeFunction: (text) =>
+        setCardData((prev) => ({ ...prev, card_number: text })),
     },
     {
       title: "CARD EXPIRATION MONTH*",
       placeholder: "MM",
       type: "text",
-      value: "",
-      changeFunction: "",
+      value: cardData.card_exp_month,
+      changeFunction: (text) =>
+        setCardData((prev) => ({ ...prev, card_exp_month: text })),
     },
     {
       title: "CARD EXPIRATION YEAR*",
       placeholder: "YY",
       type: "text",
-      value: "",
-      changeFunction: "",
+      value: cardData.card_exp_year,
+      changeFunction: (text) =>
+        setCardData((prev) => ({ ...prev, card_exp_year: text })),
     },
     {
       title: "CARD CVV*",
       placeholder: "CVV",
       type: "text",
-      value: "",
-      changeFunction: "",
+      value: cardData.cvv,
+      changeFunction: (text) => setCardData((prev) => ({ ...prev, cvv: text })),
     },
   ];
+
+  const createFormData = () => {
+    const body = new FormData();
+
+    // Advertise Data
+    body.append("category_id", advertiseData.selected_Category_id || "");
+
+    body.append("post_type_id", "1"); //dont know where it come from
+
+    body.append("title", advertiseData.title || "");
+    body.append("description", advertiseData.description || "");
+
+    body.append("contact_name", sellerInformations.name || "");
+    body.append("email", sellerInformations.email || "");
+
+    if (advertiseData.thumbnail) {
+      body.append("pictures[]", advertiseData.thumbnail || "");
+    }
+
+    body.append("videos", advertiseData.video || "");
+
+    if (sellerInformations.phone) {
+      body.append("phone", sellerInformations.phone || "");
+    }
+    // yet not know
+    body.append("accept_terms", true);
+
+    body.append("city_id", advertiseData.selected_city_id || "");
+
+    body.append("price", advertiseData.price || "");
+    body.append("negotiable", negotiable);
+    body.append("phone_hidden", hide);
+
+    body.append("ip_addr", "dolorum");
+    body.append("accept_marketing_offers", featured);
+
+    body.append("country_code", "US");
+    body.append("admin_code", "0");
+
+    body.append("tags", advertiseData.tags || "");
+    body.append("package_id", package_id);
+    body.append("payment_method_id", "5");
+    body.append("captcha_key", "qui");
+
+    body.append("is_permanent", "");
+
+    return body;
+  };
+
+  // payment info
+  const hadlerPayment = async () => {
+    const requiredCardholderFields = [
+      { field: "first_name", label: "First Name" },
+      { field: "last_name", label: "Last Name" },
+      { field: "address", label: "Address" },
+      { field: "city", label: "City" },
+      { field: "state", label: "State" },
+      { field: "postal_code", label: "Postal Code" },
+      { field: "country", label: "Country" },
+    ];
+
+    const requiredCardFields = [
+      { field: "card_number", label: "Card Number" },
+      { field: "card_exp_month", label: "Card Expiration Month" },
+      { field: "card_exp_year", label: "Card Expiration Year" },
+      { field: "cvv", label: "CVV" },
+    ];
+
+    // Validate cardholderData
+    for (let { field, label } of requiredCardholderFields) {
+      if (!cardholderData[field]) {
+        alert(
+          `Please fill the required ${label} field in Cardholder Information.`
+        );
+        return false;
+      }
+    }
+
+    // Validate cardData
+    for (let { field, label } of requiredCardFields) {
+      if (!cardData[field]) {
+        alert(`Please fill the required ${label} field in Card Details.`);
+        return false;
+      }
+    }
+
+    // return true; // All fields are valid
+    console.log("noew process");
+
+    const formData = createFormData();
+    // const formData = checker()
+
+    console.log(formData["_parts"], "this is a valid");
+    // Debug FormData values
+    for (let pair of checker.entries()) {
+      console.log(`${pair[0]}: ${pair[1]}`);
+    }
+
+    // Send formData to the API
+    fetch("https://tranzaxx.com/api/posts", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${session}`,
+        "Content-Type": "multipart/form-data",
+        Accept: "application/json",
+        "Content-Language": "en",
+        // "X-AppApiToken": "Uk1DSFlVUVhIRXpHbWt6d2pIZjlPTG15akRPN2tJTUs=",
+        "X-AppType": "docs",
+      },
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
 
   return (
     <ScrollView style={{ flex: 1, marginBottom: 5 }}>
@@ -167,11 +374,19 @@ const AddListing = () => {
           </View>
 
           {selectedButton === "PACKAGES" ? (
-            <Packages />
+            <Packages setPackagesId={setPackagesId} />
           ) : selectedButton === "PAYMENTS" ? (
-            <Payments />
+            <Payments
+              cardholderData={cardholderData}
+              setCardHolderData={setCardHolderData}
+            />
           ) : (
-            <Advertise />
+            <Advertise
+              advertiseData={advertiseData}
+              setAdvertiseData={setAdvertiseData}
+              negotiable={negotiable}
+              setNegotiable={setNegotiable}
+            />
           )}
         </View>
       </View>
@@ -217,6 +432,10 @@ const AddListing = () => {
             style={{
               padding: Platform.OS === "ios" ? 12 : 8,
             }}
+            value={sellerInformations.name}
+            onChangeText={(e) =>
+              setSellerInformations((prev) => ({ ...prev, name: e }))
+            }
           />
           <Text
             className=" text-[16px]"
@@ -230,6 +449,10 @@ const AddListing = () => {
             style={{
               padding: Platform.OS === "ios" ? 12 : 8,
             }}
+            value={sellerInformations.phone}
+            onChangeText={(e) =>
+              setSellerInformations((prev) => ({ ...prev, phone: e }))
+            }
           />
           <View className="flex flex-row items-center mt-2">
             <TouchableOpacity onPress={() => setHide((prev) => !prev)}>
@@ -269,6 +492,10 @@ const AddListing = () => {
             style={{
               padding: Platform.OS === "ios" ? 12 : 8,
             }}
+            value={sellerInformations.email}
+            onChangeText={(e) =>
+              setSellerInformations((prev) => ({ ...prev, email: e }))
+            }
           />
         </View>
       )}
@@ -389,6 +616,8 @@ const AddListing = () => {
                       padding: Platform.OS === "ios" ? 12 : 8,
                     }}
                     placeholder={item.placeholder}
+                    value={item.value}
+                    onChangeText={item.changeFunction}
                   />
                 )}
               </>
@@ -402,9 +631,7 @@ const AddListing = () => {
       {selectedButton === "ADVERTISE" && (
         <BtnWithArrow
           title={"Next"}
-          handler={() => {
-            setSelectedButton("PACKAGES");
-          }}
+          handler={handlerAdvertise}
           styles={{
             marginHorizontal: 16,
             // width: 350,
@@ -419,7 +646,8 @@ const AddListing = () => {
         <BtnWithArrow
           title={"Next"}
           handler={() => {
-            setSelectedButton("PAYMENTS");
+            handlerPackage();
+            // setSelectedButton("PAYMENTS");
           }}
           styles={{
             marginHorizontal: 16,
@@ -436,7 +664,7 @@ const AddListing = () => {
       {selectedButton === "PAYMENTS" && (
         <BtnWithArrow
           title={"Next"}
-          handler={() => {}}
+          handler={hadlerPayment}
           styles={{
             marginHorizontal: 16,
             // width: 350,
