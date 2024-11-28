@@ -9,7 +9,10 @@ export default function FaqFirstPart() {
   return (
     <View>
       <View>
-        <View className="flex-row flex-wrap justify-center items-center">
+        <View
+          className="flex-row flex-wrap justify-center items-center"
+          // style={{ marginHorizontal: 10 }}
+        >
           <Text className="uppercase text-[36px] font-BebasNeue">Got</Text>
           <ImageBackground
             source={require("../../assets/images/questionbg.png")}
@@ -20,8 +23,9 @@ export default function FaqFirstPart() {
             </Text>
           </ImageBackground>
 
-          <Text className="text-[36px] font-BebasNeue">We've got</Text>
+          <Text className="text-[36px] font-BebasNeue">We've got </Text>
           <Text className="text-[36px] font-BebasNeue uppercase text-center">
+            {" "}
             answers!
           </Text>
         </View>

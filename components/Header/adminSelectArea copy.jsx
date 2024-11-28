@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Image, Text, TextInput, View } from "react-native";
+import { Image, Platform, Text, TextInput, View } from "react-native";
 import { SimpleLineIcons, AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 
@@ -11,11 +11,12 @@ const AdminTopSelectArea = () => {
       <View className="flex-1 bg-white">
         <View className="mt-2 mx-4 flex flex-row items-center ">
           <View
-            className="py-2 border-[1px] border-[#DEE2E6] rounded flex flex-row items-center flex-1 flex-grow"
+            className=" border-[1px] border-[#DEE2E6] rounded flex flex-row items-center flex-1 flex-grow"
             style={{
               paddingLeft: 10,
               marginRight: 5,
               paddingRight: 5,
+              paddingVertical: Platform.OS === "ios" ? 12 : 8,
             }}
           >
             <AntDesign name="calendar" size={11} color="#737373" />
@@ -57,7 +58,10 @@ const AdminTopSelectArea = () => {
             />
           </View>
         </View>
-        <View className="relative z-10 mt-[10px] mx-4 py-2 border-[1px] border-[#DEE2E6] rounded flex flex-row items-center px-[10px]">
+        <View
+          className="relative z-10 mt-[10px] mx-4  border-[1px] border-[#DEE2E6] rounded flex flex-row items-center px-[10px]"
+          style={{ paddingVertical: Platform.OS === "ios" ? 12 : 8 }}
+        >
           <AntDesign name="search1" size={13} color="#737373" />
           <TextInput
             placeholder="Search"

@@ -86,7 +86,7 @@ const PersonalHome = () => {
         <View className=" mt-1 flex flex-row items-center">
           <SimpleLineIcons name="location-pin" size={14} color="#8F8F8F" />
           <Text className=" ml-1 text-[#8F8F8F]  font-poppins font-medium text-[14px]">
-            {userInfo.name}
+            {userInfo?.name}
           </Text>
         </View>
       </View>

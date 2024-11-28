@@ -5,6 +5,7 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import React, { useState } from "react";
 
@@ -113,7 +114,10 @@ export default function Payments() {
           </Text>
           {item.type === "text" ? (
             <TextInput
-              className="border-[1px] border-[#DADADA] rounded-[4px] p-[8px] mt-[10px]"
+              className="border-[1px] border-[#DADADA] rounded-[4px] mt-[10px]"
+              style={{
+                padding: Platform.OS === "ios" ? 12 : 8,
+              }}
               placeholder={item.placeholder}
             />
           ) : (

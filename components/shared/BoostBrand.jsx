@@ -1,11 +1,17 @@
+import { Platform } from "react-native";
 import { View, Text, Image } from "react-native";
 
 const BoostBrand = ({ text = "", textClass = "", mt = 0 }) => {
   return (
     <View
-      className={`border-[1px] border-[#BFBFBF] px-[10px] py-[6px] flex-row items-center gap-2 rounded-[20px]  mt-[${
+      className={`border-[1px] border-[#BFBFBF] px-[10px]  flex-row items-center gap-2 rounded-[20px]  mt-[${
         mt ? mt : "60px"
       }]`}
+      style={{
+        paddingTop: Platform.OS === "ios" ? 8 : 6,
+        paddingBottom: Platform.OS === "ios" ? 8 : 6,
+        // paddingHorizontal: 14,
+      }}
       //style={mt && { marginTop: mt }}
     >
       <Image

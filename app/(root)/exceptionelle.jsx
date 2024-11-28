@@ -20,7 +20,11 @@ import Warning from "../../assets/images/exceptionelle/warning.png";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useLocalSearchParams } from "expo-router";
-import { getSinglePosts, getSinglePostsWithDetail } from "../../apiService";
+import {
+  getSinglePosts,
+  getSinglePostsWithDetail,
+  sendMessage,
+} from "../../apiService";
 import {
   additionalDetail,
   characteristics,
@@ -30,8 +34,11 @@ import { WebView } from "react-native-webview";
 import { Dimensions, useWindowDimensions } from "react-native";
 import RenderHTML from "react-native-render-html";
 import { format } from "date-fns";
+import { useSession } from "../../lib/cts";
+import { Alert } from "react-native";
 
 const Exceptionelle = () => {
+  const { userInfo, userData, session } = useSession();
   const { id } = useLocalSearchParams();
   const { width } = useWindowDimensions();
   const [isModalVisible, setModalVisible] = useState(false);
@@ -39,6 +46,8 @@ const Exceptionelle = () => {
   const [extraDetail, setExtraDetail] = useState(null);
   const [extras, setExtras] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [message, setMessage] = useState("");
+  const [phone, setPhone] = useState("");
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -83,7 +92,7 @@ const Exceptionelle = () => {
     //console.log(detail);
   }
 
-  //console.log(id);
+  // console.log(session);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -91,8 +100,70 @@ const Exceptionelle = () => {
   const [isModalMessageVisible, setModalMessageVisible] = useState(false);
 
   const toggleModalMessage = () => {
-    setModalMessageVisible(!isModalMessageVisible);
+    if (userInfo) {
+      setModalMessageVisible(!isModalMessageVisible);
+    } else {
+      Alert.alert("Please Login", "To send a message please login first", [
+        {
+          text: "Close",
+          // onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        {
+          text: "login",
+          onPress: () => router.push("(auth)/login"),
+          style: "default",
+        },
+      ]);
+    }
   };
+
+  const handleSendMessage = async () => {
+    if (userInfo) {
+      if (message.length > 20) {
+        const data = {
+          from_name: userInfo.name,
+          // from_email: userData.email,
+          from_phone: phone,
+          body: message,
+          post_id: id,
+          captcha_key: "",
+        };
+        console.log(data);
+        try {
+          const result = await sendMessage(data, session);
+          if (result.success) {
+            Alert.alert("", result.message, [
+              {
+                text: "Close",
+                // onPress: () => console.log("Cancel Pressed"),
+                style: "cancel",
+              },
+              // {text: 'OK', onPress: () => console.log('OK Pressed')},
+            ]);
+            setModalMessageVisible(false);
+            setMessage("");
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      } else {
+        Alert.alert(
+          "Error",
+          "The message must be between 20 and 1000 characters.",
+          [
+            {
+              text: "Close",
+              // onPress: () => console.log("Cancel Pressed"),
+              style: "cancel",
+            },
+            // {text: 'OK', onPress: () => console.log('OK Pressed')},
+          ]
+        );
+      }
+    }
+  };
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       {isLoading && !detail && !extraDetail && !extras ? (
@@ -559,6 +630,8 @@ const Exceptionelle = () => {
                         <TextInput
                           className="border-[1px] border-[#DADADA] font-BebasNeue rounded-[6px] py-[10px] px-[12px] mt-[10px]"
                           placeholder="Phone number"
+                          value={phone}
+                          onChangeText={setPhone}
                         />
 
                         <Text className="text-[16px] mt-[12px] font-BebasNeue">
@@ -579,6 +652,8 @@ const Exceptionelle = () => {
                           placeholder="Your Message Here"
                           maxLength={500}
                           multiline
+                          value={message}
+                          onChangeText={setMessage}
                         />
                       </View>
                     </View>
@@ -593,7 +668,10 @@ const Exceptionelle = () => {
                             Close
                           </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity className="bg-[#00ADEF] mt-[10px] w-[125px] rounded-[4px] py-[10px] px-[15px] items-center">
+                        <TouchableOpacity
+                          onPress={handleSendMessage}
+                          className="bg-[#00ADEF] mt-[10px] w-[125px] rounded-[4px] py-[10px] px-[15px] items-center"
+                        >
                           <Text className="font-BebasNeue text-[18px]  text-[#FFFFFF]">
                             send
                           </Text>

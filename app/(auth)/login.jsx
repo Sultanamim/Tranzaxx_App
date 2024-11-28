@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TextInput } from "react-native";
+import { View, Text, ScrollView, TextInput, Platform } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -44,7 +44,12 @@ export default function Login() {
             </View>
             <View
               className="border-[1px] border-[#BFBFBF] rounded-[4px]"
-              style={{ paddingVertical: 0, paddingHorizontal: 14 }}
+              style={{
+                paddingTop: Platform.OS === "ios" ? 10 : 0,
+                paddingBottom: Platform.OS === "ios" ? 15 : 0,
+                paddingHorizontal: 14,
+                //height: Platform.OS === "ios" ? 60 : "100%",
+              }}
             >
               <View className="flex-row-reverse justify-end items-center gap-2 mt-[10px]">
                 <TextInput
@@ -71,7 +76,11 @@ export default function Login() {
             </View>
             <View
               className=" border-[1px] border-[#BFBFBF] rounded-[4px]"
-              style={{ paddingVertical: 5, paddingHorizontal: 14 }}
+              style={{
+                paddingTop: Platform.OS === "ios" ? 17 : 0,
+                paddingBottom: Platform.OS === "ios" ? 17 : 0,
+                paddingHorizontal: 14,
+              }}
             >
               <View className="flex-row items-center gap-2 mt-[10px]s">
                 <Image
@@ -133,7 +142,7 @@ export default function Login() {
               });
 
               if (check) {
-                router.replace("/");
+                router.replace("(root)/home");
               }
               //  router.replace("(root)/home")}
               // router.replace('/');

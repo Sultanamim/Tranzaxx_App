@@ -1,4 +1,11 @@
-import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TextInput,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 import Btn from "../shared/Btn";
 
 export default function PersonalInformation() {
@@ -28,7 +35,10 @@ export default function PersonalInformation() {
             </Text>
             <View
               className="mt-[6px] border-[1px] border-[#DEE2E6] rounded-[5px] bg-white"
-              style={{ paddingVertical: 8, paddingHorizontal: 14 }}
+              style={{
+                paddingVertical: Platform.OS === "ios" ? 15 : 8,
+                paddingHorizontal: 14,
+              }}
             >
               <TextInput
                 placeholder="Your Name"
@@ -45,7 +55,10 @@ export default function PersonalInformation() {
             </Text>
             <View
               className="mt-[6px] border-[1px] border-[#DEE2E6] rounded-[5px] bg-white"
-              style={{ paddingVertical: 8, paddingHorizontal: 14 }}
+              style={{
+                paddingVertical: Platform.OS === "ios" ? 15 : 8,
+                paddingHorizontal: 14,
+              }}
             >
               <TextInput
                 placeholder="Email Address"
@@ -64,7 +77,10 @@ export default function PersonalInformation() {
           </Text>
           <View
             className="mt-[6px] border-[1px] border-[#DEE2E6] rounded-[5px] bg-white"
-            style={{ paddingVertical: 8, paddingHorizontal: 14 }}
+            style={{
+              paddingVertical: Platform.OS === "ios" ? 15 : 8,
+              paddingHorizontal: 14,
+            }}
           >
             <TextInput
               placeholder="Type your address"
@@ -74,7 +90,7 @@ export default function PersonalInformation() {
         </View>
 
         <View className="mt-[10px] flex-row items-center justify-between">
-          <View className="w-[58%]">
+          <View className="w-[50%]">
             <Text
               className="text-[#061B3B] text-[12px] uppercase"
               style={{ fontFamily: "Poppins-SemiBold" }}
@@ -101,7 +117,7 @@ export default function PersonalInformation() {
               <View
                 className="mt-[6px] border-[1px] border-[#DEE2E6] bg-white"
                 style={{
-                  paddingVertical: 4,
+                  paddingVertical: Platform.OS === "ios" ? 14 : 4,
                   paddingHorizontal: 38,
                   borderBottomRightRadius: 5,
                   borderTopRightRadius: 5,
@@ -116,7 +132,7 @@ export default function PersonalInformation() {
               </View>
             </TouchableOpacity>
           </View>
-          <View className="w-[48%]">
+          <View className="w-50%]">
             <Text
               className="text-[#061B3B] text-[12px] uppercase"
               style={{ fontFamily: "Poppins-SemiBold" }}
@@ -142,7 +158,7 @@ export default function PersonalInformation() {
               <View
                 className="mt-[6px] border-[1px] border-[#DEE2E6] bg-white"
                 style={{
-                  paddingVertical: 4,
+                  paddingVertical: Platform.OS === "ios" ? 14 : 4,
                   paddingHorizontal: 38,
                   borderBottomRightRadius: 5,
                   borderTopRightRadius: 5,
@@ -168,7 +184,10 @@ export default function PersonalInformation() {
           </Text>
           <View
             className="mt-[6px] border-[1px] border-[#DEE2E6] rounded-[5px] bg-white"
-            style={{ paddingVertical: 8, paddingHorizontal: 14 }}
+            style={{
+              paddingVertical: Platform.OS === "ios" ? 15 : 8,
+              paddingHorizontal: 14,
+            }}
           >
             <TextInput
               placeholder="0"

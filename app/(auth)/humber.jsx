@@ -12,8 +12,10 @@ import linkind from "../../assets/images/follow/linkind.png";
 import x from "../../assets/images/follow/x.png";
 import message from "../../assets/images/follow/email.png";
 import { Linking } from "react-native";
+import { useSession } from "../../lib/cts";
 
 const Menu = ({ setIsShowMenu }) => {
+  const { userInfo } = useSession();
   const { setShowMenu } = useContext(AppContext);
   const [links, setLinks] = useState(null);
 
@@ -87,6 +89,37 @@ const Menu = ({ setIsShowMenu }) => {
               </TouchableOpacity>
             </View>
           ))}
+          {userInfo ? (
+            <TouchableOpacity
+              onPress={() => {
+                router.push("(admin)/admin-personalhome");
+                setShowMenu(false);
+                setIsShowMenu(false);
+              }}
+            >
+              <Text
+                className="text-white text-[16px] uppercase"
+                style={{ fontFamily: "Poppins-Medium" }}
+              >
+                Admin Dashboard
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              onPress={() => {
+                router.push("(auth)/login");
+                setShowMenu(false);
+                setIsShowMenu(false);
+              }}
+            >
+              <Text
+                className="text-white text-[16px] uppercase"
+                style={{ fontFamily: "Poppins-Medium" }}
+              >
+                Log in / Register
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
         <View className="flex-row items-center mt-5">
           <TouchableOpacity

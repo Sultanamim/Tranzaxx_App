@@ -1,4 +1,4 @@
-import { View, Text, Image, TextInput } from "react-native";
+import { View, Text, Image, TextInput, Platform } from "react-native";
 import {} from "react-native-web";
 
 const CardHolderInformationSection = () => {
@@ -24,7 +24,11 @@ const CardHolderInformationSection = () => {
           </Text>
           <View
             className="mt-[6px] border-[1px] border-[#DEE2E6] rounded-[5px] bg-white"
-            style={{ paddingVertical: 3, paddingHorizontal: 10 }}
+            // style={{ paddingVertical: 3, paddingHorizontal: 10 }}
+            style={{
+              paddingVertical: Platform.OS === "ios" ? 15 : 3,
+              paddingHorizontal: 10,
+            }}
           >
             <TextInput
               placeholder="Card Holder's First Name"
@@ -41,7 +45,10 @@ const CardHolderInformationSection = () => {
           </Text>
           <View
             className="mt-[6px] border-[1px] border-[#DEE2E6] rounded-[5px] bg-white"
-            style={{ paddingVertical: 3, paddingHorizontal: 10 }}
+            style={{
+              paddingVertical: Platform.OS === "ios" ? 15 : 3,
+              paddingHorizontal: 10,
+            }}
           >
             <TextInput
               placeholder="Card Holder's Last Name"
@@ -61,7 +68,10 @@ const CardHolderInformationSection = () => {
         </Text>
         <View
           className="mt-[6px] border-[1px] border-[#DEE2E6] rounded-[5px] bg-white"
-          style={{ paddingVertical: 8, paddingHorizontal: 14 }}
+          style={{
+            paddingVertical: Platform.OS === "ios" ? 15 : 8,
+            paddingHorizontal: 14,
+          }}
         >
           <TextInput
             placeholder="Card Holder's Address"
@@ -81,7 +91,10 @@ const CardHolderInformationSection = () => {
           </Text>
           <View
             className="mt-[6px] border-[1px] border-[#DEE2E6] rounded-[5px] bg-white"
-            style={{ paddingVertical: 8, paddingHorizontal: 14 }}
+            style={{
+              paddingVertical: Platform.OS === "ios" ? 15 : 8,
+              paddingHorizontal: 14,
+            }}
           >
             <TextInput
               placeholder="City"
@@ -98,7 +111,10 @@ const CardHolderInformationSection = () => {
           </Text>
           <View
             className="mt-[6px] border-[1px] border-[#DEE2E6] rounded-[5px] bg-white"
-            style={{ paddingVertical: 8, paddingHorizontal: 14 }}
+            style={{
+              paddingVertical: Platform.OS === "ios" ? 15 : 8,
+              paddingHorizontal: 14,
+            }}
           >
             <TextInput
               placeholder="State / Province"
@@ -119,7 +135,10 @@ const CardHolderInformationSection = () => {
           </Text>
           <View
             className="mt-[6px] border-[1px] border-[#DEE2E6] rounded-[5px] bg-white"
-            style={{ paddingVertical: 8, paddingHorizontal: 14 }}
+            style={{
+              paddingVertical: Platform.OS === "ios" ? 15 : 8,
+              paddingHorizontal: 14,
+            }}
           >
             <TextInput
               placeholder="Postal Code"
@@ -136,7 +155,10 @@ const CardHolderInformationSection = () => {
           </Text>
           <View
             className="mt-[6px] border-[1px] border-[#DEE2E6] rounded-[5px] bg-white"
-            style={{ paddingVertical: 8, paddingHorizontal: 14 }}
+            style={{
+              paddingVertical: Platform.OS === "ios" ? 15 : 8,
+              paddingHorizontal: 14,
+            }}
           >
             <TextInput
               placeholder="Country"

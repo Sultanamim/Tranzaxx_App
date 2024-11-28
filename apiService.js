@@ -2,20 +2,26 @@ import axios from "axios";
 
 const apiClient = axios.create({
   baseURL: "https://tranzaxx.com/api",
-  headers: {
-    "Content-Type": "application/json",
-    // Add other default headers here if needed
-  },
 });
 
-export const getRequest = async (endpoint, params = {}) => {
-  const queryParams = new URLSearchParams(params).toString(); // Converts params object to query string
-  const fullUrl = `${apiClient.defaults.baseURL}${endpoint}${
-    queryParams ? `?${queryParams}` : ""
-  }`;
-  // console.log(`Full GET URL: ${fullUrl}`); // Log the full URL
+// Function to dynamically set headers, including the token
+const setHeaders = (token = null) => ({
+  Authorization: token ? `Bearer ${token}` : undefined,
+  "Content-Type": "application/json",
+  Accept: "application/json",
+  "Content-Language": "en",
+  "X-AppApiToken": "Uk1DSFlVUVhIRXpHbWt6d2pIZjlPTG15akRPN2tJTUs=",
+  "X-AppType": "docs",
+});
+
+// GET request function
+export const getRequest = async (endpoint, params = {}, token = null) => {
   try {
-    const response = await apiClient.get(endpoint, { params });
+    const headers = setHeaders(token);
+    const response = await apiClient.get(endpoint, {
+      params,
+      headers,
+    });
     return response.data;
   } catch (error) {
     console.error(`GET ${endpoint} failed:`, error);
@@ -23,12 +29,38 @@ export const getRequest = async (endpoint, params = {}) => {
   }
 };
 
-export const postRequest = async (endpoint, data = {}) => {
+// POST request function
+export const postRequest = async (endpoint, data = {}, token = null) => {
   try {
-    const response = await apiClient.post(endpoint, data);
+    const headers = setHeaders(token);
+    const response = await apiClient.post(endpoint, data, { headers });
     return response.data;
   } catch (error) {
     console.error(`POST ${endpoint} failed:`, error);
+    throw error;
+  }
+};
+
+// PUT request function
+export const putRequest = async (endpoint, data = {}, token = null) => {
+  try {
+    const headers = setHeaders(token);
+    const response = await apiClient.put(endpoint, data, { headers });
+    return response.data;
+  } catch (error) {
+    console.error(`PUT ${endpoint} failed:`, error);
+    throw error;
+  }
+};
+
+// DELETE request function
+export const deleteRequest = async (endpoint, token = null) => {
+  try {
+    const headers = setHeaders(token);
+    const response = await apiClient.delete(endpoint, { headers });
+    return response.data;
+  } catch (error) {
+    console.error(`DELETE ${endpoint} failed:`, error);
     throw error;
   }
 };
@@ -62,9 +94,35 @@ export const getPrivacyPage = () => getRequest(`/pages/Privacy`);
 export const getTermsPage = () => getRequest(`/pages/Terms`);
 export const getAntiScamPage = () => getRequest(`/pages/Anti-scam`);
 export const getSocialLinks = () => getRequest(`/settings/social_link`);
+export const getSavedPost = (token) => getRequest(`/savedPosts`, {}, token);
+export const getSavedSearches = (token) =>
+  getRequest(`/savedSearches`, {}, token);
+export const getListPayments = (token) =>
+  getRequest(`/payments?embed=post,paymentMethod,package,currency`, {}, token);
+export const getListThreads = (token) => getRequest(`/threads`, {}, token);
+export const getFilteredThreads = (filter, token) =>
+  getRequest(`/threads?filter=${filter}`, {}, token);
+export const getSingleThread = (id, token) =>
+  getRequest(`threads/${id}/messages`, {}, token);
 
 //ALL POSt Requests
 export const createUser = (userData) => postRequest("/users", userData);
 export const sendContact = (data) => postRequest("/contact", data);
 export const reportPost = (id, data) =>
   postRequest(`/posts/${id}/report`, data);
+export const sendMessage = (data, token) =>
+  postRequest(`/threads`, data, token);
+
+export const bulkMessage = (ids, type, token) =>
+  postRequest(`/threads/bulkUpdate/${ids}?type=${type}`, {}, token);
+
+// PUT API requests
+export const updateMessage = (id, data, token) =>
+  putRequest(`/threads/${id}`, data, token);
+
+//Delete API Requests
+export const deleteSavePost = (postId, token) =>
+  deleteRequest(`/savedPosts/${postId}`, token);
+
+export const deleteMessage = (id, token) =>
+  deleteRequest(`/threads/${id}`, token);

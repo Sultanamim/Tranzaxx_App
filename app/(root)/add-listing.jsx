@@ -7,6 +7,7 @@ import {
   ScrollView,
   TextInput,
   StyleSheet,
+  Platform,
 } from "react-native";
 import BoostBrand from "../../components/shared/BoostBrand";
 import RotateText from "../../components/shared/RotateText";
@@ -211,8 +212,11 @@ const AddListing = () => {
             YOUR NAME*
           </Text>
           <TextInput
-            className="border-[1px] border-[#DADADA] rounded-[4px] p-[8px] mt-[10px]"
+            className="border-[1px] border-[#DADADA] rounded-[4px] mt-[10px]"
             placeholder="YOUR NAME"
+            style={{
+              padding: Platform.OS === "ios" ? 12 : 8,
+            }}
           />
           <Text
             className=" text-[16px]"
@@ -221,8 +225,11 @@ const AddListing = () => {
             PHONE NUMBER
           </Text>
           <TextInput
-            className="border-[1px] border-[#DADADA] rounded-[4px] p-[8px] mt-[10px]"
+            className="border-[1px] border-[#DADADA] rounded-[4px] mt-[10px]"
             placeholder="PHONE NUMBER"
+            style={{
+              padding: Platform.OS === "ios" ? 12 : 8,
+            }}
           />
           <View className="flex flex-row items-center mt-2">
             <TouchableOpacity onPress={() => setHide((prev) => !prev)}>
@@ -257,8 +264,11 @@ const AddListing = () => {
             EMAIL*
           </Text>
           <TextInput
-            className="border-[1px] border-[#DADADA] rounded-[4px] p-[8px] mt-[10px]"
+            className="border-[1px] border-[#DADADA] rounded-[4px] mt-[10px]"
             placeholder="EMAIL"
+            style={{
+              padding: Platform.OS === "ios" ? 12 : 8,
+            }}
           />
         </View>
       )}
@@ -374,7 +384,10 @@ const AddListing = () => {
                 </Text>
                 {item.type === "text" && (
                   <TextInput
-                    className="border-[1px] border-[#DADADA] rounded-[4px] p-[8px] mt-[10px]"
+                    className="border-[1px] border-[#DADADA] rounded-[4px] mt-[10px]"
+                    style={{
+                      padding: Platform.OS === "ios" ? 12 : 8,
+                    }}
                     placeholder={item.placeholder}
                   />
                 )}

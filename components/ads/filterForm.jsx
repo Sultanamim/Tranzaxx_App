@@ -3,6 +3,7 @@ import { View, Text, TextInput } from "react-native";
 import Btn from "../shared/Btn";
 import { TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import { Platform } from "react-native";
 
 const FilterForm = () => {
   return (
@@ -10,7 +11,11 @@ const FilterForm = () => {
       <View className="flex-row items-center gap-2">
         <View
           className="border-[1px] border-[#8E8E8E] rounded-lg  flex-1"
-          style={{ paddingVertical: 0, paddingHorizontal: 14 }}
+          style={{
+            paddingTop: Platform.OS === "ios" ? 10 : 0,
+            paddingBottom: Platform.OS === "ios" ? 15 : 0,
+            paddingHorizontal: 14,
+          }}
         >
           <TextInput
             placeholder="LOOKING FOR SOMETHING"
@@ -46,7 +51,11 @@ const FilterForm = () => {
       <View className="flex-row items-center gap-2 mt-3">
         <View
           className="border-[1px] border-[#8E8E8E] rounded-lg flex-1"
-          style={{ paddingVertical: 0, paddingHorizontal: 14 }}
+          style={{
+            paddingTop: Platform.OS === "ios" ? 10 : 0,
+            paddingBottom: Platform.OS === "ios" ? 15 : 0,
+            paddingHorizontal: 14,
+          }}
         >
           <TextInput
             placeholder="LOOKING FOR SOMETHING"

@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Image } from "react-native";
+import { View, Text, TextInput, Image, Platform } from "react-native";
 
 const CardInformation = () => {
   return (
@@ -25,7 +25,10 @@ const CardInformation = () => {
           </Text>
           <View
             className="mt-[6px] border-[1px] border-[#DEE2E6] rounded-[5px] bg-white"
-            style={{ paddingVertical: 8, paddingHorizontal: 14 }}
+            style={{
+              paddingVertical: Platform.OS === "ios" ? 15 : 8,
+              paddingHorizontal: 14,
+            }}
           >
             <TextInput
               placeholder="Card Number"
@@ -42,7 +45,10 @@ const CardInformation = () => {
           </Text>
           <View
             className="mt-[6px] border-[1px] border-[#DEE2E6] rounded-[5px] bg-white"
-            style={{ paddingVertical: 8, paddingHorizontal: 14 }}
+            style={{
+              paddingVertical: Platform.OS === "ios" ? 15 : 8,
+              paddingHorizontal: 14,
+            }}
           >
             <TextInput
               placeholder="Expiry Month"
@@ -62,7 +68,10 @@ const CardInformation = () => {
           </Text>
           <View
             className="mt-[6px] border-[1px] border-[#DEE2E6] rounded-[5px] bg-white"
-            style={{ paddingVertical: 8, paddingHorizontal: 14 }}
+            style={{
+              paddingVertical: Platform.OS === "ios" ? 15 : 8,
+              paddingHorizontal: 14,
+            }}
           >
             <TextInput
               placeholder="Expiry Year"
@@ -79,7 +88,10 @@ const CardInformation = () => {
           </Text>
           <View
             className="mt-[6px] border-[1px] border-[#DEE2E6] rounded-[5px] bg-white"
-            style={{ paddingVertical: 8, paddingHorizontal: 14 }}
+            style={{
+              paddingVertical: Platform.OS === "ios" ? 15 : 8,
+              paddingHorizontal: 14,
+            }}
           >
             <TextInput
               placeholder="CVV"

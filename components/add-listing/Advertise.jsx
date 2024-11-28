@@ -7,6 +7,7 @@ import {
   ScrollView,
   TextInput,
   StyleSheet,
+  Platform,
 } from "react-native";
 import BoostBrand from "../../components/shared/BoostBrand";
 import RotateText from "../../components/shared/RotateText";
@@ -177,8 +178,11 @@ function Advertise() {
           TITLE*
         </Text>
         <TextInput
-          className="border-[1px] border-[#DADADA] rounded-[4px] p-[8px] mt-[10px]"
+          className="border-[1px] border-[#DADADA] rounded-[4px] mt-[10px]"
           placeholder="AD TITLE"
+          style={{
+            padding: Platform.OS === "ios" ? 12 : 8,
+          }}
         />
         <Text
           className=" mt-[10px] text-[13px]"
@@ -313,7 +317,12 @@ function Advertise() {
         </Text>
         <View
           className="border-[1px] border-[#DADADA] rounded-[4px]  mt-[10px] flex flex-row items-center"
-          style={{ paddingHorizontal: 15 }}
+          style={{
+            paddingTop: Platform.OS === "ios" ? 15 : 0,
+            paddingBottom: Platform.OS === "ios" ? 15 : 0,
+            paddingHorizontal: 15,
+            //height: Platform.OS === "ios" ? 60 : "100%",
+          }}
         >
           <Image
             source={DollerCircleImg}
@@ -357,7 +366,10 @@ function Advertise() {
         </Text>
         <TouchableOpacity
           onPress={() => setShowDropdown(!showDropdown)}
-          className="border-[1px] border-[#DADADA] rounded-[4px] p-[8px] mt-[10px]"
+          className="border-[1px] border-[#DADADA] rounded-[4px] mt-[10px]"
+          style={{
+            padding: Platform.OS === "ios" ? 12 : 10,
+          }}
         >
           <View className=" flex-row flex justify-between">
             <Text className="text-[14px] text-[#010101]">SELECT A CITY</Text>
@@ -372,8 +384,11 @@ function Advertise() {
           TAGS*
         </Text>
         <TextInput
-          className="border-[1px] border-[#DADADA] rounded-[4px] p-[8px] mt-[10px]"
+          className="border-[1px] border-[#DADADA] rounded-[4px] mt-[10px]"
           placeholder="TAGS"
+          style={{
+            padding: Platform.OS === "ios" ? 12 : 8,
+          }}
         />
         <Text
           className="text-[14px] text-[#737373]"

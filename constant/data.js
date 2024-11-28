@@ -210,6 +210,10 @@ export const screens = [
     page: "ADVERTISE",
     link: "(root)/advertise",
   },
+  // {
+  //   page: "Log In / Register",
+  //   link: "(auth)/login",
+  // },
 ];
 
 export const aboutUsData = [

@@ -15,13 +15,13 @@ const advertise = () => {
           <CardInformation />
 
           <View className="mt-[26px] mb-20">
-            <Text className="text-primary font-poppins text-[18px] text-right font-semibold mt-2">
+            <Text className="text-primary font-poppins text-[18px] text-right font-semibold mt-2 uppercase">
               Sub total 1000$
             </Text>
-            <Text className="text-primary font-poppins text-[18px] text-right font- mt-2">
+            <Text className="text-primary font-poppins text-[18px] text-right font- mt-2  uppercase">
               Discount os
             </Text>
-            <Text className="text-primary font-poppins text-[18px] text-right font-semibold mt-2">
+            <Text className="text-primary font-poppins text-[18px] text-right font-semibold mt-2  uppercase">
               total price 1000s
             </Text>
             <View className="mt-1 flex-row items-center justify-end">

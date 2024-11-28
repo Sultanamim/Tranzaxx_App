@@ -2,6 +2,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { Link, router } from "expo-router";
 import { Image, ScrollView, TouchableOpacity } from "react-native";
 import { View, Text } from "react-native";
+import HeroImg from "../../assets/images/onboard.png";
 
 const onboard = () => {
   return (
@@ -21,8 +22,9 @@ const onboard = () => {
       </View>
       <View className="mt-[30px]">
         <Image
-          source={require("../../assets/images/onboard.png")}
+          source={HeroImg}
           className="w-full"
+          //style={{ width: "100%", height: 300 }}
           resizeMode="contain"
         />
       </View>
